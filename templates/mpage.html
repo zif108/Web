@@ -1,0 +1,170 @@
+{% extends 'base.html' %}
+{% block title %}
+Main page
+{% endblock %}
+
+{% block body %}
+
+
+<main class="container">
+    <div class="p-4 p-md-5 mb-4 text-white rounded bg-dark">
+        <div class="col-md-6 px-0">
+            <h1 class="display-4 fst-italic">Title of a longer featured blog post</h1>
+            <p class="lead my-3">Multiple lines of text that form the lede, informing new readers
+                quickly and efficiently about what’s most interesting in this post’s contents.</p>
+            <p class="lead mb-0"><a href="#" class="text-white fw-bold">Continue reading...</a></p>
+        </div>
+    </div>
+
+    <div class="row mb-2">
+        <div class="col-md-6">
+            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                <div class="col p-4 d-flex flex-column position-static">
+                    <strong class="d-inline-block mb-2 text-primary">World</strong>
+                    <h3 class="mb-0">Featured post</h3>
+                    <div class="mb-1 text-muted">Nov 12</div>
+                    <p class="card-text mb-auto">This is a wider card with supporting text below as a
+                        natural lead-in to additional content.</p>
+                    <a href="#" class="stretched-link">Continue reading</a>
+                </div>
+                <div class="col-auto d-none d-lg-block">
+                    <svg class="bd-placeholder-img" width="200" height="250"
+                         xmlns="http://www.w3.org/2000/svg" role="img"
+                         aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice"
+                         focusable="false"><title>Placeholder</title>
+                        <rect width="100%" height="100%" fill="#55595c"></rect>
+                        <text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>
+                    </svg>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                <div class="col p-4 d-flex flex-column position-static">
+                    <strong class="d-inline-block mb-2 text-success">Design</strong>
+                    <h3 class="mb-0">Post title</h3>
+                    <div class="mb-1 text-muted">Nov 11</div>
+                    <p class="mb-auto">This is a wider card with supporting text below as a natural
+                        lead-in to additional content.</p>
+                    <a href="#" class="stretched-link">Continue reading</a>
+                </div>
+                <div class="col-auto d-none d-lg-block">
+                    <svg class="bd-placeholder-img" width="200" height="250"
+                         xmlns="http://www.w3.org/2000/svg" role="img"
+                         aria-label="Placeholder: Thumbnail" preserveAspectRatio="xMidYMid slice"
+                         focusable="false"><title>Placeholder</title>
+                        <rect width="100%" height="100%" fill="#55595c"></rect>
+                        <text x="50%" y="50%" fill="#eceeef" dy=".3em">Thumbnail</text>
+                    </svg>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-8">
+            <h3 class="pb-4 mb-4 fst-italic border-bottom">
+                Самое новое
+            </h3>
+            {% for item in news %}
+            <article class="blog-post">
+                <h2 class="blog-post-title">{{item.title}}</h2>
+                {%if item.created_date.month < 10%}
+                    <p class="blog-post-meta">{{item.created_date.day}}.0{{item.created_date.month}}.{{item.created_date.year}} {{item.created_date.hour}}:{{item.created_date.minute}} Автор: <a href="/author/{{item.user_id}}">{{item.user.name}}</a></p>
+                {%else%}
+                    <p class="blog-post-meta">{{item.created_date.day}}.{{item.created_date.month}}.{{item.created_date.year}} {{item.created_date.hour}}:{{item.created_date.minute}} Автор: <a href="#">{{item.user.name}}</a></p>
+                {%endif%}
+                {%if item.content|length > 460%}
+                    <div>{{item.content[:460]}}<a href=/post/{{item.id}}>...</a></div>
+                {%else%}
+                    <div>{{item.content}}</div>
+                {%endif%}
+            </article>
+<!--            <button type="button" class="btn btn-outline-danger" href="">Понравилось</button>-->
+            <a href="/like" class="btn btn-outline-danger">Понравилось</a>
+            <hr>
+            {%endfor%}
+
+            <nav class="blog-pagination" aria-label="Pagination">
+                <a class="btn btn-outline-primary" href="#">Older</a>
+                <a class="btn btn-outline-secondary disabled" href="#" tabindex="-1"
+                   aria-disabled="true">Newer</a>
+            </nav>
+
+        </div>
+
+        <div class="col-md-4">
+            <div class="p-4 mb-3 bg-light rounded">
+                <h4 class="fst-italic">About</h4>
+                <p class="mb-0">Saw you downtown singing the Blues. Watch you circle the drain. Why
+                    don't you let me stop by? Heavy is the head that <em>wears the crown</em>. Yes,
+                    we make angels cry, raining down on earth from up above.</p>
+            </div>
+
+            <div class="p-4">
+                <h4 class="fst-italic">Archives</h4>
+                <ol class="list-unstyled mb-0">
+<!--                    <li><a href="#">March 2014</a></li>-->
+<!--                    <li><a href="#">February 2014</a></li>-->
+<!--                    <li><a href="#">January 2014</a></li>-->
+<!--                    <li><a href="#">December 2013</a></li>-->
+<!--                    <li><a href="#">November 2013</a></li>-->
+<!--                    <li><a href="#">October 2013</a></li>-->
+<!--                    <li><a href="#">September 2013</a></li>-->
+<!--                    <li><a href="#">August 2013</a></li>-->
+<!--                    <li><a href="#">July 2013</a></li>-->
+<!--                    <li><a href="#">June 2013</a></li>-->
+<!--                    <li><a href="#">May 2013</a></li>-->
+                    <li><a href="/archive/04-21">April 2021</a></li>
+                </ol>
+            </div>
+
+            <div class="p-4">
+                <h4 class="fst-italic">Elsewhere</h4>
+                <ol class="list-unstyled">
+                    <li><a href="#">GitHub</a></li>
+                    <li><a href="#">Twitter</a></li>
+                    <li><a href="#">Facebook</a></li>
+                </ol>
+            </div>
+        </div>
+
+    </div><!-- /.row -->
+
+</main><!-- /.container -->
+
+<!--<footer class="blog-footer">-->
+<!--    <p>Blog template built for <a href="https://getbootstrap.com/">Bootstrap</a> by <a-->
+<!--            href="https://twitter.com/mdo">@mdo</a>.</p>-->
+<!--    <p>-->
+<!--        <a href="#">Back to top</a>-->
+<!--    </p>-->
+<!--</footer>-->
+<!--<div id="goog-gt-tt" class="skiptranslate" dir="ltr">-->
+<!--    <div style="padding: 8px;">-->
+<!--        <div>-->
+<!--            <div class="logo"><img-->
+<!--                    src="https://www.gstatic.com/images/branding/product/1x/translate_24dp.png"-->
+<!--                    width="20" height="20" alt="Google Переводчик"></div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <div class="top" style="padding: 8px; float: left; width: 100%;"><h1 class="title gray">Исходный-->
+<!--        текст</h1></div>-->
+<!--    <div class="middle" style="padding: 8px;">-->
+<!--        <div class="original-text"></div>-->
+<!--    </div>-->
+<!--    <div class="bottom" style="padding: 8px;">-->
+<!--        <div class="activity-links"><span-->
+<!--                class="activity-link">Предложить лучший вариант перевода</span><span-->
+<!--                class="activity-link"></span></div>-->
+<!--        <div class="started-activity-container">-->
+<!--            <hr style="color: #CCC; background-color: #CCC; height: 1px; border: none;">-->
+<!--            <div class="activity-root"></div>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--    <div class="status-message" style="display: none;"></div>-->
+<!--</div>-->
+
+{% endblock %}

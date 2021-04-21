@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block title %}
+    post
+{% endblock %}
+
+{% block body %}
+    <main class="container">
+        <article class="blog-post">
+            <h2 class="blog-post-title">{{news.title}}</h2>
+            <p class="blog-post-meta">{{news.created_date.hour}}:{{news.created_date.minute}} <a href="#">{{news.user.name}}</a></p>
+            <div>
+                {{news.content}}
+            </div>
+        </article>
+    </main>
+
+{% endblock %}

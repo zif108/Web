@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}
+    acc
+{% endblock %}
+
+{% block body %}
+{% if current_user.is_authenticated %}
+    <div class="container">
+        <div>
+            <a href="news" class="btn btn-secondary">Добавить новость</a>
+        </div>
+{% endif %}
+{% for item in news%}
+<main class="container">
+    <article class="blog-post">
+                <h2 class="blog-post-title">{{item.title}}</h2>
+                <p class="blog-post-meta">{{item.created_date}} by <a href="#">{{item.user.name}}</a></p>
+                <div>
+                    {{item.content}}
+                </div>
+        {% if current_user.is_authenticated and current_user == item.user %}
+            <div>
+                <a href="/news/{{ item.id }}" class="btn btn-warning">
+                    Изменить
+                </a>
+                <a href="/news_delete/{{ item.id }}" class="btn btn-danger">
+                    Удалить
+                </a>
+            </div>
+        {% endif %}
+    </article>
+    <hr>
+</main>
+    </div>
+{%endfor%}
+{% endblock %}
