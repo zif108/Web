@@ -1,16 +1,14 @@
 # Про науку
-from os import abort
-
-from flask import Flask, render_template, request
+from flask import Flask, render_template
 from werkzeug.utils import redirect
 
 from data import db_session
 from data.users import User
 from data.news import News
-from forms.login import LoginForm
-from forms.news import NewsForm
-from forms.user import RegisterForm
-from flask_login import LoginManager, login_user, login_required, logout_user, current_user
+from forms import login
+from flask_login import LoginManager
+from handlers import index, reqister, login, account, author, post, news_delete, edit_news, logout, \
+    archive
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
@@ -19,162 +17,10 @@ login_manager = LoginManager()
 login_manager.init_app(app)
 
 
-@app.route("/")
-def index():
-    db_sess = db_session.create_session()
-    # news = db_sess.query(News).filter(News.is_private != True)
-    if current_user.is_authenticated:
-        news = db_sess.query(News).filter(
-            (News.user == current_user) | (News.is_private != True))
-    else:
-        news = db_sess.query(News).filter(News.is_private != True)
-
-    news1 = [i for i in news]
-    news2 = news1[::-1]
-    for i in news2:
-        print(i.created_date.month < 10)
-    return render_template("mpage.html", news=news2)
-
-
-@app.route('/register', methods=['GET', 'POST'])
-def reqister():
-    form = RegisterForm()
-    if form.validate_on_submit():
-        if form.password.data != form.password_again.data:
-            return render_template('register.html', title='Регистрация',
-                                   form=form,
-                                   message="Пароли не совпадают")
-        db_sess = db_session.create_session()
-        if db_sess.query(User).filter(User.email == form.email.data).first():
-            return render_template('register.html', title='Регистрация',
-                                   form=form,
-                                   message="Такой пользователь уже есть")
-        user = User(
-            name=form.name.data,
-            email=form.email.data,
-            about=form.about.data
-        )
-        user.set_password(form.password.data)
-        db_sess.add(user)
-        db_sess.commit()
-        return redirect('/login')
-    return render_template('register.html', title='Регистрация', form=form)
-
-
 @login_manager.user_loader
 def load_user(user_id):
     db_sess = db_session.create_session()
     return db_sess.query(User).get(user_id)
-
-
-@app.route('/login', methods=['GET', 'POST'])
-def login():
-    form = LoginForm()
-    if form.validate_on_submit():
-        db_sess = db_session.create_session()
-        user = db_sess.query(User).filter(User.email == form.email.data).first()
-        if user and user.check_password(form.password.data):
-            login_user(user, remember=form.remember_me.data)
-            return redirect("/")
-        return render_template('login.html',
-                               message="Неправильный логин или пароль",
-                               form=form)
-    return render_template('login.html', title='Авторизация', form=form)
-
-
-@app.route('/logout')
-@login_required
-def logout():
-    logout_user()
-    return redirect("/")
-
-
-@app.route('/account')
-def acc():
-    if current_user.is_authenticated:
-        db_sess = db_session.create_session()
-        print(current_user.get_id())
-        # print(News.user_id())
-        news = db_sess.query(News).filter(News.user == current_user)
-        for i in news:
-            print(i)
-        return render_template('account.html', news=news)
-
-
-@app.route('/news', methods=['GET', 'POST'])
-@login_required
-def add_news():
-    form = NewsForm()
-
-    if form.validate_on_submit():
-        db_sess = db_session.create_session()
-        news = News()
-        news.title = form.title.data
-        news.content = form.content.data
-        news.is_private = form.is_private.data
-        current_user.news.append(news)
-        db_sess.merge(current_user)
-        db_sess.commit()
-        return redirect('/')
-    return render_template('edit.html', title='Добавление новости',
-                           form=form)
-
-
-@app.route('/news/<int:id>', methods=['GET', 'POST'])
-@login_required
-def edit_news(id):
-    form = NewsForm()
-    if request.method == "GET":
-        db_sess = db_session.create_session()
-        news = db_sess.query(News).filter(News.id == id,
-                                          News.user == current_user
-                                          ).first()
-        if news:
-            form.title.data = news.title
-            form.content.data = news.content
-            form.is_private.data = news.is_private
-        else:
-            abort(404)
-    if form.validate_on_submit():
-        db_sess = db_session.create_session()
-        news = db_sess.query(News).filter(News.id == id,
-                                          News.user == current_user
-                                          ).first()
-        if news:
-            news.title = form.title.data
-            news.content = form.content.data
-            news.is_private = form.is_private.data
-            db_sess.commit()
-            return redirect('/')
-        else:
-            abort(404)
-    return render_template('edit.html',
-                           title='Редактирование новости',
-                           form=form
-                           )
-
-
-@app.route('/news_delete/<int:id>', methods=['GET', 'POST'])
-@login_required
-def news_delete(id):
-    db_sess = db_session.create_session()
-    news = db_sess.query(News).filter(News.id == id,
-                                      News.user == current_user
-                                      ).first()
-    if news:
-        db_sess.delete(news)
-        db_sess.commit()
-    else:
-        abort(404)
-    return redirect('/')
-
-
-@app.route('/post/<int:id>', methods=['GET', 'POST'])
-@login_required
-def post(id):
-    db_sess = db_session.create_session()
-    news = db_sess.query(News).filter(News.id == id).first()
-    return render_template('post.html', news=news)
 
 
 @app.route('/like')
@@ -183,36 +29,18 @@ def like():
     return redirect("/")
 
 
-@app.route('/author/<int:id>')
-def author(id):
-    db_sess = db_session.create_session()
-
-    news = db_sess.query(News).filter(News.user_id == id)
-    user = {}
-    for i in news:
-        user['name'] = i.user.name
-        user['about'] = i.user.about
-        user['name'] = i.user.name
-        user['date'] = i.user.created_date
-    return render_template('author.html', news=news, id=id, user=user)
-
-@app.route('/archive/<string:str>')
-def archive(str):
-    db_sess = db_session.create_session()
-
-    news = db_sess.query(News).filter(News.user_id == id)
-    user = {}
-    for i in news:
-        user['name'] = i.user.name
-        user['about'] = i.user.about
-        user['name'] = i.user.name
-        user['date'] = i.user.created_date
-    return render_template('author.html', news=news, id=id, user=user)
-
-
 def main():
     db_session.global_init("db/blogs.db")
-
+    app.register_blueprint(index.blueprint)
+    app.register_blueprint(reqister.blueprint)
+    app.register_blueprint(login.blueprint)
+    app.register_blueprint(account.blueprint)
+    app.register_blueprint(edit_news.blueprint)
+    app.register_blueprint(news_delete.blueprint)
+    app.register_blueprint(post.blueprint)
+    app.register_blueprint(logout.blueprint)
+    app.register_blueprint(author.blueprint)
+    app.register_blueprint(archive.blueprint)
     app.run(debug=True)
 
 

@@ -9,10 +9,13 @@ Main page
 <main class="container">
     <div class="p-4 p-md-5 mb-4 text-white rounded bg-dark">
         <div class="col-md-6 px-0">
-            <h1 class="display-4 fst-italic">Title of a longer featured blog post</h1>
-            <p class="lead my-3">Multiple lines of text that form the lede, informing new readers
-                quickly and efficiently about what’s most interesting in this post’s contents.</p>
-            <p class="lead mb-0"><a href="#" class="text-white fw-bold">Continue reading...</a></p>
+            <h1 class="display-4 fst-italic">{{max_new.title}}</h1>
+            {%if max_new.content|length > 460%}
+                <p class="lead my-3">{{max_new.content[:143]}}</p>
+                <p class="lead mb-0"><a href="/post/{{max_new.id}}" class="text-white fw-bold">Continue reading...</a></p>
+            {%else%}
+                <p class="lead mb-0"><a href="/author/{{item.user_id}}" class="text-white fw-bold">Read more...</a></p>
+            {%endif%}
         </div>
     </div>
 
@@ -74,7 +77,7 @@ Main page
                 {%if item.created_date.month < 10%}
                     <p class="blog-post-meta">{{item.created_date.day}}.0{{item.created_date.month}}.{{item.created_date.year}} {{item.created_date.hour}}:{{item.created_date.minute}} Автор: <a href="/author/{{item.user_id}}">{{item.user.name}}</a></p>
                 {%else%}
-                    <p class="blog-post-meta">{{item.created_date.day}}.{{item.created_date.month}}.{{item.created_date.year}} {{item.created_date.hour}}:{{item.created_date.minute}} Автор: <a href="#">{{item.user.name}}</a></p>
+                    <p class="blog-post-meta">{{item.created_date.day}}.{{item.created_date.month}}.{{item.created_date.year}} {{item.created_date.hour}}:{{item.created_date.minute}} Автор: <a href="/author/{{item.user_id}}">{{item.user.name}}</a></p>
                 {%endif%}
                 {%if item.content|length > 460%}
                     <div>{{item.content[:460]}}<a href=/post/{{item.id}}>...</a></div>
@@ -117,7 +120,7 @@ Main page
 <!--                    <li><a href="#">July 2013</a></li>-->
 <!--                    <li><a href="#">June 2013</a></li>-->
 <!--                    <li><a href="#">May 2013</a></li>-->
-                    <li><a href="/archive/04-21">April 2021</a></li>
+                    <li><a href="/archive/4-21">April 2021</a></li>
                 </ol>
             </div>
 
