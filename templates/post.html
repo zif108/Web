@@ -7,7 +7,11 @@
     <main class="container">
         <article class="blog-post">
             <h2 class="blog-post-title">{{news.title}}</h2>
-            <p class="blog-post-meta">{{news.created_date.hour}}:{{news.created_date.minute}} <a href="{{href}}">{{news.user.name}}</a></p>
+            {% if news.created_date.month < 10 %}
+                <p class="blog-post-meta">{{news.created_date.day}}.0{{news.created_date.month}} {{news.created_date.year}} {{news.created_date.hour}}:{{news.created_date.minute}} <a href="{{href}}">{{news.user.name}}</a></p>
+            {%else%}
+                <p class="blog-post-meta">{{news.created_date.day}}.{{news.created_date.month}} {{news.created_date.year}} {{news.created_date.hour}}:{{news.created_date.minute}} <a href="{{href}}">{{news.user.name}}</a></p>
+            {%endif%}
             <div>
                 {{news.content}}
             </div>

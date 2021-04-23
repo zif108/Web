@@ -17,6 +17,7 @@ def author(id):
 
     news = db_sess.query(News).filter(News.user_id == id)
     user = {}
+
     for i in news:
         user['name'] = i.user.name
         user['about'] = i.user.about

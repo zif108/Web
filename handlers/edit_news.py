@@ -26,6 +26,7 @@ def edit_news(id):
                                           ).first()
         if news:
             form.title.data = news.title
+            form.tag.data = news.tag
             form.content.data = news.content
             form.is_private.data = news.is_private
         else:
@@ -37,6 +38,7 @@ def edit_news(id):
                                           ).first()
         if news:
             news.title = form.title.data
+            news.tag = form.tag.data
             news.content = form.content.data
             news.is_private = form.is_private.data
             db_sess.commit()

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+{% block title %}
+    Tag {{str}}
+{% endblock %}
+
+{% block body %}
+{% for item in news %}
+    <div class="container">
+        <article class="blog-post">
+        <h2 class="blog-post-title">{{item.title}}</h2>
+        {%if item.created_date.month < 10%}
+            <p class="blog-post-meta">{{item.created_date.day}}.0{{item.created_date.month}}.{{item.created_date.year}} {{item.created_date.hour}}:{{item.created_date.minute}} Автор: <a href="/author/{{item.user_id}}">{{item.user.name}}</a></p>
+        {%else%}
+            <p class="blog-post-meta">{{item.created_date.day}}.{{item.created_date.month}}.{{item.created_date.year}} {{item.created_date.hour}}:{{item.created_date.minute}} Автор: <a href="/author/{{item.user_id}}">{{item.user.name}}</a></p>
+        {%endif%}
+        <p class="blog-post-meta"><a href="">{{item.tag}}</a></p>
+        {%if item.content|length > 460%}
+            <div>{{item.content[:460]}}<a href=/post/{{item.id}}>...</a></div>
+        {%else%}
+            <div>{{item.content}}</div>
+        {%endif%}
+        </article>
+    </div>
+    <hr>
+
+{% endfor %}
+{% endblock %}

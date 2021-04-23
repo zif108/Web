@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}
+    tags
+{% endblock %}
+
+{% block body %}
+{%for i in tags%}
+<div class="container">
+    <h3><a href="/tags/{{i[0]}}">{{i[0]}}</a></h3>
+</div>
+<hr>
+<br>
+
+{%endfor%}
+{% endblock %}

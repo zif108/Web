@@ -23,6 +23,7 @@ def add_news():
         db_sess = db_session.create_session()
         news = News()
         news.title = form.title.data
+        news.tag = form.tag.data
         news.content = form.content.data
         news.is_private = form.is_private.data
         current_user.news.append(news)

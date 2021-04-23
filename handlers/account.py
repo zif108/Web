@@ -1,3 +1,5 @@
+import datetime
+
 import flask
 from flask import render_template
 from flask_login import current_user
@@ -21,4 +23,6 @@ def acc():
         user['name'] = current_user.name
         user['about'] = current_user.about
         user['date'] = current_user.created_date
+        user['id'] = current_user.id
+
         return render_template('account.html', news=news, user=user)

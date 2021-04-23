@@ -1,14 +1,12 @@
-# Про науку
-from flask import Flask, render_template
+from flask import Flask
 from werkzeug.utils import redirect
 
 from data import db_session
 from data.users import User
-from data.news import News
 from forms import login
 from flask_login import LoginManager
 from handlers import index, reqister, login, account, author, post, news_delete, edit_news, logout, \
-    archive
+    archive, add_news, tags, edit_user
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
@@ -36,11 +34,14 @@ def main():
     app.register_blueprint(login.blueprint)
     app.register_blueprint(account.blueprint)
     app.register_blueprint(edit_news.blueprint)
+    app.register_blueprint(add_news.blueprint)
     app.register_blueprint(news_delete.blueprint)
     app.register_blueprint(post.blueprint)
     app.register_blueprint(logout.blueprint)
     app.register_blueprint(author.blueprint)
     app.register_blueprint(archive.blueprint)
+    app.register_blueprint(tags.blueprint)
+    app.register_blueprint(edit_user.blueprint)
     app.run(debug=True)
 
 
