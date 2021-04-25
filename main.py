@@ -1,4 +1,4 @@
-import eel
+
 from flask import Flask
 from werkzeug.utils import redirect
 
@@ -7,7 +7,7 @@ from data.users import User
 from forms import login
 from flask_login import LoginManager
 from handlers import index, reqister, login, account, author, post, news_delete, edit_news, logout, \
-    archive, add_news, tags, edit_user
+    archive, add_news, tags, edit_user, api
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'yandexlyceum_secret_key'
@@ -43,6 +43,7 @@ def main():
     app.register_blueprint(archive.blueprint)
     app.register_blueprint(tags.blueprint)
     app.register_blueprint(edit_user.blueprint)
+    app.register_blueprint(api.blueprint)
     app.run(debug=True)
 
 
