@@ -4,7 +4,7 @@ from flask_login import current_user
 
 from data import db_session
 from data.news import News
-from data.users import User
+
 
 blueprint = flask.Blueprint(
     'post',

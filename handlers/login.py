@@ -1,13 +1,13 @@
 import flask
 from flask import render_template
-from flask_login import current_user, login_user
+from flask_login import login_user
 from werkzeug.utils import redirect
 
 from data import db_session
-from data.news import News
+
 from data.users import User
 from forms.login import LoginForm
-from forms.user import RegisterForm
+
 
 blueprint = flask.Blueprint(
     'login',

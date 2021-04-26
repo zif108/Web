@@ -5,7 +5,6 @@ from flask_restful import abort
 from werkzeug.utils import redirect
 
 from data import db_session
-from data.news import News
 from data.users import User
 from forms.user import RegisterForm
 

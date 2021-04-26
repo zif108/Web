@@ -1,12 +1,11 @@
 import flask
-from flask import render_template
 from flask_login import current_user, login_required
 from flask_restful import abort
 from werkzeug.utils import redirect
 
 from data import db_session
 from data.news import News
-from forms.news import NewsForm
+
 
 blueprint = flask.Blueprint(
     'delete_news',

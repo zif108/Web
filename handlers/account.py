@@ -21,8 +21,6 @@ def acc():
         if q:
             news_poisk = db_sess.query(News).filter(
                 News.title.contains(q) | News.content.contains(q) | News.tag.contains(q)).all()
-        # else:
-        #     news = db_sess.query(News).filter(News.is_private != True)
 
         news = db_sess.query(News).filter(News.user == current_user).all()
         news = news[::-1]
