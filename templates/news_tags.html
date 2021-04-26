@@ -15,9 +15,9 @@
         {%endif%}
         <p class="blog-post-meta"><a href="">{{item.tag}}</a></p>
         {%if item.content|length > 460%}
-            <div>{{item.content[:460]}}<a href=/post/{{item.id}}>...</a></div>
+            <div><pre>{{item.content[:460]}}</pre><a href=/post/{{item.id}}>...</a></div>
         {%else%}
-            <div>{{item.content}}</div>
+            <div><pre>{{item.content}}</pre></div>
         {%endif%}
         </article>
     </div>

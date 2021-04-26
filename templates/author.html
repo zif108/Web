@@ -36,9 +36,9 @@
                 <p class="blog-post-meta">{{item.created_date.day}}.{{item.created_date.month}}.{{item.created_date.year}} {{item.created_date.hour}}:{{item.created_date.minute}} Автор: <a href="#">{{item.user.name}}</a></p>
             {%endif%}
             {%if item.content|length > 460%}
-                <div>{{item.content[:460]}}<a href=/post/{{item.id}}>...</a></div>
+                <div><pre>{{item.content[:460]}}<a href=/post/{{item.id}}>...</a></pre></div>
             {%else%}
-                <div>{{item.content}}</div>
+                <div><pre>{{item.content}}</pre></div>
             {%endif%}
         </article>
 

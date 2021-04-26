@@ -37,6 +37,9 @@ def index():
             break
     tag1 = news_with_tags[id_no_tag1]
     tag2 = news_with_tags[id_no_tag2]
+    # news1 = []
+    # for i in news:
+    #     i.title.replace('\n', )
     news1 = [i for i in news]
     news2 = news1[::-1]
     id_no = random.randint(0, len(news2) - 1)

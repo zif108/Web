@@ -43,7 +43,7 @@ acc
             <p class="blog-post-meta">{{item.created_date}} by <a href="#">{{item.user.name}}</a></p>
             <p class="blog-post-meta"><a href="">{{item.tag}}</a></p>
             <div>
-                {{item.content}}
+                <pre>{{item.content}}</pre>
             </div>
             {% if current_user.is_authenticated and current_user == item.user %}
             <div>

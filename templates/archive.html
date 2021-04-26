@@ -16,7 +16,7 @@
             {%if item.content|length > 460%}
                 <div>{{item.content[:460]}}<a href=/post/{{item.id}}>...</a></div>
             {%else%}
-                <div>{{item.content}}</div>
+                <div><pre>{{item.content}}</pre></div>
             {%endif%}
         </article>
 <!--            <button type="button" class="btn btn-outline-danger" href="">Понравилось</button>-->
